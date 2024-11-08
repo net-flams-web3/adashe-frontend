@@ -1,4 +1,4 @@
-import { IEmergency, IMemberInGroup } from '@/interfaces/temp'
+import { IEmergency } from '@/interfaces/temp'
 import React from 'react'
 
 type IUserJoinedCard = {

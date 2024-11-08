@@ -2,7 +2,7 @@ import React from 'react'
 import Modal from '../ui/modals'
 import Input from '../input'
 import Button from '../ui/button'
-import { ICreateGroupData } from '@/interfaces/group'
+import { ICreateGroupData, ICreateGroupError } from '@/interfaces/group'
 
 type ICreateGroup = {
   open: boolean
@@ -18,26 +18,59 @@ const CreateGroup = ({open, onClose}: ICreateGroup) => {
     group_name: "",
     maximum_member: 0
   })
-  const [error, errorSet] = React.useState({})
+  const [error, errorSet] = React.useState<ICreateGroupError>({
+    amount: "",
+    cycle: "",
+    emergency_pool: "",
+    group_name: "",
+    maximum_member: ""
+  })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = e.target
     dataSet(prev => ({...prev, [name]: value}))
+    errorSet(prev => ({...prev, [name]: ""}))
   }
+
+  const handleSubmit = () => {
+    let validate: boolean = false
+    if (!data.amount) {
+      validate = true
+      errorSet(prev => ({...prev, amount: "warning"}))
+    }
+    if (!data.cycle) {
+      validate = true
+      errorSet(prev => ({...prev, cycle: "warning"}))
+    }
+    if (!data.emergency_pool) {
+      validate = true
+      errorSet(prev => ({...prev, emergency_pool: "warning"}))
+    }
+    if (!data.group_name) {
+      validate = true
+      errorSet(prev => ({...prev, group_name: "warning"}))
+    }
+    if (!data.maximum_member) {
+      validate = true
+      errorSet(prev => ({...prev, maximum_member: "warning"}))
+    }
+    if (validate) return;
+  }
+
   return (
     <Modal open={open}>
       <div className='w-full text-right'>
         <span  onClick={onClose} className='text-[1.2rem] text-body-color-dark cursor-pointer'>X</span>
       </div>
 
-      <Input label='Group Name' type='text' onChange={handleChange} value={data.group_name} placeholder='Farmer Weekly Contribution' className='my-2' />
-      <Input label='Contribution Amount (ALGO)' type='text' onChange={handleChange} value={data.amount?.toString()} placeholder='2000' className='my-2' />
-      <Input label='Cycle Length (Days)' type='text' onChange={handleChange} value={data.cycle?.toString()} placeholder='7' className='my-2' />
-      <Input label='Maximum Members' type='text' onChange={handleChange} value={data.maximum_member?.toString()} placeholder='20' className='my-2' />
-      <Input label='Emergency Pool Percentage' type='text' onChange={handleChange} value={data.emergency_pool?.toString()} placeholder='50%' className='my-2' />
+      <Input status={error.group_name} name="group_name" label='Group Name' type='text' onChange={handleChange} value={data.group_name} placeholder='Farmer Weekly Contribution' className='my-2' />
+      <Input status={error.amount} name="amount" label='Contribution Amount (ALGO)' type='text' onChange={handleChange} value={data.amount?.toString()} placeholder='2000' className='my-2' />
+      <Input status={error.cycle} name="cycle" label='Cycle Length (Days)' type='text' onChange={handleChange} value={data.cycle?.toString()} placeholder='7' className='my-2' />
+      <Input status={error.maximum_member} name="maximum_member" label='Maximum Members' type='text' onChange={handleChange} value={data.maximum_member?.toString()} placeholder='20' className='my-2' />
+      <Input status={error.emergency_pool} name="emergency_pool" label='Emergency Pool Percentage' type='text' onChange={handleChange} value={data.emergency_pool?.toString()} placeholder='50%' className='my-2' />
 
       <div className='w-full flex items-center justify-center'>
-        <Button text='Submit' onClick={() => null} className='my-3 text-gray-600' />
+        <Button text='Submit' onClick={handleSubmit} className='my-3 text-gray-600' />
       </div>
     </Modal>
   )
