@@ -7,6 +7,7 @@ interface InputProps {
   placeholder?: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  className?: string
 }
 
 const Input: React.FC<InputProps> = ({
@@ -15,9 +16,10 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   value,
   onChange,
+  className = "",
 }) => {
   return (
-    <div className="max-w-sm mx-auto">
+    <div className={`max-w-sm mx-auto ${className}`}>
       {label && (
         <label
           htmlFor={label}
@@ -32,7 +34,7 @@ const Input: React.FC<InputProps> = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="mt-2 p-2 block w-full border border-gray-300 bg-transparent rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+        className="placeholder:text-gray-300 mt-2 p-2 block w-full border border-gray-300 bg-transparent rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
       />
     </div>
   );
