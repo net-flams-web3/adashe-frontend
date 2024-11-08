@@ -41,12 +41,16 @@ const DashboardPage = () => {
       <main className="shadow-md px-4 py-2 grid grid-rows-[5rem,1fr] lg:min-w-[90vw] min-w-full  border rounded-lg bg-white overflow-hidden">
         <div className="flex justify-between items-center my-4">
           <h3 className="text-[1.6rem] text-primary font-[700]">Adashe Pay Dashboard</h3>
-          <div></div>
+         
           <Button text="Create New Group" onClick={() => createSet(true)} className="text-primary" />
         </div>
 
         <section className="border-[2px] rounded-lg py-3 p-2 mb-2 h-full overflow-hidden">
-          <h3 className="text-primary font-[800] py-2">{active.name}</h3>
+          <div className="flex items-center justify-between">
+            <h3 className="text-primary font-[800] py-2">{active.name}</h3>
+
+            {active.id === 2 && <Button text="Invite Member" onClick={() => {}} className="text-white bg-gray-600" />}
+          </div>
 
           <section className="overflow-hidden h-full"> {/* Set the correct height for scrolling */}
             <Tabs tabs={tabs} active={active} onClick={(res) => activeSet(res)} />
