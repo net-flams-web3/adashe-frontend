@@ -1,13 +1,13 @@
 'use client'
 
 import CreateGroup from "@/components/section/CreateGroup";
+import InviteMember from "@/components/section/InviteMember";
 import Button from "@/components/ui/button";
 import Emergency from "@/components/ui/emergencies";
 import GroupCard from "@/components/ui/group-card";
 import Tabs from "@/components/ui/tabs";
 import UserJoinedCard from "@/components/ui/user-joined";
 import constant_data from "@/config/constant";
-import { IMemberInGroup } from "@/interfaces/temp";
 import { useState } from "react";
 
 type TabItem = {
@@ -35,6 +35,7 @@ const DashboardPage = () => {
 
   const [active, activeSet] = useState<TabItem>(tabs[0])
   const [create, createSet] = useState<boolean>(false)
+  const [invite, inviteSet] = useState<boolean>(false)
 
   return (
     <main className="w-full h-[100vh] grid justify-center py-4 overflow-hidden bg-white">
@@ -49,7 +50,7 @@ const DashboardPage = () => {
           <div className="flex items-center justify-between">
             <h3 className="text-primary font-[800] py-2">{active.name}</h3>
 
-            {active.id === 2 && <Button text="Invite Member" onClick={() => {}} className="text-white bg-gray-600" />}
+            {active.id === 2 && <Button text="Invite Member" onClick={() => inviteSet(true)} className="text-white bg-gray-600" />}
           </div>
 
           <section className="overflow-hidden h-full"> {/* Set the correct height for scrolling */}
@@ -72,6 +73,7 @@ const DashboardPage = () => {
         </section>
       </main>
       <CreateGroup open={create} onClose={() => createSet(false)} />
+        <InviteMember open={invite} onClose={() => inviteSet(false)} />
     </main>
   );
 };
